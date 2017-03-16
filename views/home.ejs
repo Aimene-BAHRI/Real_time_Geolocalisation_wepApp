@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>home-page</title>
+    <style media="screen">
+      *{margin: 0px; padding: 0px;}
+      .profile{display: inline-block;margin-right: 5vh}
+      #info_user{margin: 5vh;}
+      .box{display: inline-block; width: 49vw;}
+    </style>
+  </head>
+  <body>
+    <div id="info_user">
+
+      <div class = "profile">
+        <img  src="/images/profile_pic/<% if(profile.icon != "") { %><%= profile.icon %><% } else { %><%= 'none.png' %><% } %>" alt="" height="50px" width="50px">
+      </div>
+      <div class = "profile">
+        <p>
+         <%= profile.fname %> <br>
+         <%= profile.age %> ans
+        </p>
+      </div>
+    </div>
+      <h3> Wellcome Back : <%= id %> </h3>
+
+      <div class = "box" >
+        <ul>
+          <% for(var i =0;i<profile.friends.length;i++){ %>
+            <li><span class = "friend"><%= profile.friends[i] %><span></li>
+            <% } %>
+          </ul>
+
+          <form id ="friend-form" action="" >
+            <input type="text">
+            <button>Send</button>
+          </form>
+          <ul>
+
+          </ul>
+
+      </div>
+      <div class = "box">
+        <ul>
+          <% for(var i =0;i<profile.groups.length;i++){ %>
+            <li><span class = "group"><%= profile.groups[i] %><span></li>
+            <% } %>
+          </ul>
+
+          <form id ="group-form" action="" >
+            <input type="text">
+            <button>Send</button>
+          </form>
+          <ul>
+
+          </ul>
+
+      </div>
+      <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script src="/socket.io/socket.io.js"></script>
+      <script>
+        $(function(){
+          var socket = io();
+        })
+      </script>
+  </body>
+</html>
