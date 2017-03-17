@@ -4,9 +4,17 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('log', { title: 'Express' });
+  res.render('log');
 });
 
-router.post('/log',controller.ctr_users );
+//router.post('/home',controller.ctr_users );
+router.post('/home',function(req,res,next){
+  var ctr = controller.ctr_users(req,res,next)
+
+  if(ctr.v)
+    res.render('home',ctr.user)
+  else
+    res.json(ctr.user)
+  });
 
 module.exports = router;

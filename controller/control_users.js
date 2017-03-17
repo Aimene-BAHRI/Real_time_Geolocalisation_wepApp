@@ -16,12 +16,24 @@ module.exports = {
   * else go back to the login page
   */
   if (guest.id in users && (guest.mdp == users[guest.id]['mdp'])){
-            res.render('home',{
+            /*res.render('home',{
               'id':guest.id,
               'profile':users[guest.id]
-            });
+            });*/
+
+          return{
+            'v':'true',
+            'user':{
+              'id':guest.id,
+              'profile':users[guest.id]
+            }
           }
+        }
           else
-            res.render('log');
+            /*res.render('log');*/
+            return{
+              'v':'false'
+            }
+
   }
 };
