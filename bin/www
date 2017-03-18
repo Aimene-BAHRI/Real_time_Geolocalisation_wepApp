@@ -7,7 +7,6 @@
 var app = require('../app');
 var debug = require('debug')('talking-app:server');
 var http = require('http');
-var socketIo = require('socket.io');
 
 /**
  * Get port from environment and store in Express.
@@ -21,12 +20,6 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
-var io = socketIo(server);
-var items = {
-  'server':server,
-  'io':io
-}
-module.exports = items;
 
 /**
  * Listen on provided port, on all network interfaces.
