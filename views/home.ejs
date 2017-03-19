@@ -2,76 +2,39 @@
 <html>
   <head>
     <meta charset="utf-8">
-       <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <title>login-page</title>
 
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!--bootstrap css-->
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!--my css-->
+    <link rel="stylesheet" href="/stylesheets/style.css">
 
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <title>home-page</title>
-    <style media="screen">
-      *{margin: 0px; padding: 0px;}
-      .profile{display: inline-block;margin-right: 5vh}
-      #info_user{margin: 5vh;}
-      .box{display: inline-block; width: 49vw;}
-    </style>
   </head>
   <body>
-    <div id="info_user">
+    <div class="container">
 
-      <div class = "profile">
-        <img  src="/images/profile_pic/<% if(profile.icon != "") { %><%= profile.icon %><% } else { %><%= 'none.png' %><% } %>" alt="" height="50px" width="50px">
+      <div class="row">
+
+        <div class="col-xs-4 col-xs-offset-4">
+
+          <form action="/user" id="login-form" method="post">
+
+            <input type="text" name="idd" value="" placeholder="UserName">
+            <input type="text" name="mdpp" value="" placeholder="PassWord">
+            <button type="submit" name="button" >Send</button>
+          </form>
+
+        </div>
+
       </div>
-      <div class = "profile">
-        <p>
-         <%= profile.fname %> <br>
-         <%= profile.age %> ans
-        </p>
-      </div>
+
     </div>
-      <h3> Wellcome Back : <%= id %> </h3>
-
-      <div class = "box" >
-        <ul>
-          <% for(var i =0;i<profile.friends.length;i++){ %>
-            <li><span class = "friend"><%= profile.friends[i] %><span></li>
-            <% } %>
-          </ul>
-
-          <form id ="friend-form" action="" >
-            <input type="text">
-            <button>Send</button>
-          </form>
-          <ul>
-
-          </ul>
-
-      </div>
-      <div class = "box">
-        <ul>
-          <% for(var i =0;i<profile.groups.length;i++){ %>
-            <li><span class = "group"><%= profile.groups[i] %><span></li>
-            <% } %>
-          </ul>
-
-          <form id ="group-form" action="" >
-            <input type="text">
-            <button>Send</button>
-          </form>
-          <ul>
-
-          </ul>
-
-      </div>
-      <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-      <script src="/socket.io/socket.io.js"></script>
-      <script>
-        $(function(){
-          var socket = io();
-        })
-      </script>
   </body>
+
+  <!--jquery-->
+  <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js" ></script>
+  <!--bootstrap-->
+  <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+
 </html>
