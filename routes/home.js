@@ -7,19 +7,18 @@ router.get('/', function(req, res, next) {
   res.render('home');
 });
 
-/*router.post('/home',function(req, res, next) {
-  res.redirect('home',ctr.user);
-});*/
 router.post('/user',function(req,res,next){
   var ctr = controller.ctr_users(req,res,next)
-  console.log('well com : ')
-  res.redirect('user')
-  /*if(ctr.v == 'true'){
-    res.redirect('home');
+
+  if(ctr.v == 'true'){
+    module.exports = {user:ctr.user}
+    res.redirect('/user/hi');
+
   }
   else{
     res.redirect('/');
-  }*/
+  }
+
   });
 
 module.exports = router;

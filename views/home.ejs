@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <title>login-page</title>
 
-    <!--bootstrap css-->
-    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <!--my css-->
-    <link rel="stylesheet" href="/stylesheets/style.css">
+    <!--defined css links-->
+
+    <% include ./commun/links.ejs %>
 
   </head>
+
   <body>
     <div class="container">
 
@@ -31,10 +31,9 @@
     </div>
   </body>
 
-  <!--jquery-->
-  <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js" ></script>
-  <!--bootstrap-->
-  <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <!--defindes scripts-->
+
+  <% include ./commun/scripts.ejs %>
 
 
 </html>
