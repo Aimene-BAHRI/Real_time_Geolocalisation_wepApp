@@ -31,7 +31,9 @@
     </div>
       <h3> Wellcome Back : <%= id %> </h3>
 
-      <div class = "box" >
+    <div class="row">
+
+      <div class = "col-xs-6" >
         <ul>
           <% for(var i =0;i<profile.friends.length;i++){ %>
             <li><span class = "friend"><%= profile.friends[i] %><span></li>
@@ -47,7 +49,8 @@
           </ul>
 
       </div>
-      <div class = "box">
+
+      <div class = "col-xs-6 ">
         <ul>
           <% for(var i =0;i<profile.groups.length;i++){ %>
             <li><span class = "group"><%= profile.groups[i] %><span></li>
@@ -64,10 +67,11 @@
 
       </div>
 
+    </div>
       <!--defindes scripts-->
 
       <% include ./commun/scripts.ejs %>
-      
+
       <script src="/socket.io/socket.io.js"></script>
       <script>
         $(function(){
