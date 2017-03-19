@@ -1,39 +1,41 @@
+
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
-    <title>login-page</title>
-
-    <!--defined css links-->
-
-    <% include ./commun/links.ejs %>
-
+    <title></title>
+    <link rel="stylesheet" href="/stylesheets/style_home.css">
   </head>
-
   <body>
-    <div class="container">
+    <header>
+    <div class="row">
+      <nav >
+        <ul>
+          <li ><a  href="#">DOWNLOAD</a></li>
+          <li ><a href="#">ABOUT</a></li>
 
-      <div class="row">
+        </ul>
+       </nav>
 
-        <div class="col-xs-4 col-xs-offset-4">
 
-          <form action="/user" id="login-form" method="post">
-
-            <input type="text" name="idd" value="" placeholder="UserName">
-            <input type="text" name="mdpp" value="" placeholder="PassWord">
-            <button type="submit" name="button" >Send</button>
-          </form>
-
-        </div>
-
+      <div class="hero">
+      <h1>CATCH ME IF YOU CAN</h1>
+        <p>use our tracker application for <strong>DESKTOP</strong> and <strong>MOBILES</strong> </p>
+        <br>
+        <a class="btn_a important" href="/log/goto_log" >LOG IN</a>
+        <a class="btn_a nimportant" href="#">SIGN UP</a>
       </div>
 
-    </div>
+      </div>
+    </header>
+
   </body>
 
   <!--defindes scripts-->
 
   <% include ./commun/scripts.ejs %>
+  <script type="text/javascript">
 
+  </script>
 
 </html>

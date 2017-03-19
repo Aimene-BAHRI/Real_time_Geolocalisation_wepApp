@@ -22,7 +22,7 @@ module.exports = {
             });*/
 
           return{
-            'v':'true',
+            'v':true,
             'user':{
               'id':guest.id,
               'profile':users[guest.id]
@@ -32,7 +32,7 @@ module.exports = {
           else
             /*res.render('log');*/
             return{
-              'v':'false'
+              'v':false
             }
 
   }
