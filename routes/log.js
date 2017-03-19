@@ -1,5 +1,5 @@
 var express = require('express');
-
+var controller = require('../controller/control_users')
 var router = express.Router();
 
 /* GET home page. */
@@ -8,11 +8,19 @@ router.get('/', function(req, res, next) {
   res.render('log');
 
 });
-
-router.post('/bob',function(req,res,next) {
-  console.log('hehe')
-  res.redirect('home')
+router.post('/A',function(req, res, next){
+  console.log("there")
+  var ctr = controller.ctr_users(req,res,next)
+  if(ctr.v){
+    module.exports = {user:ctr.user}
+    res.redirect('/user/goto_user');
+  }
+  else{
+    console.log(ctr.v)
+    res.redirect('/log/goto_log');
+  }
 })
+/*
 router.post('/goto_user',function(req,res,next){
   console.log("there")
   var ctr = controller.ctr_users(req,res,next)
@@ -26,7 +34,7 @@ router.post('/goto_user',function(req,res,next){
   }
 
 });
-
+*/
   router.get('/goto_log',function(req, res, next) {
     res.redirect('/log');
   });
