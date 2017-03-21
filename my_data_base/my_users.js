@@ -4,36 +4,52 @@ var users = {
             'fname':'Benhatchi',
             'name':'Moukhtar',
             'age':22,
-            'friends':['u1','u2'],
+            'friends':{
+              'ids':['u1','u2'],
+              'allow':[true,true]
+            },
             'groups':['g1'],
-            'icon':'benhatchi.jpg'
+            'icon':'benhatchi.jpg',
+            'is_logged':false
         },
         'u1':{
             'mdp':'1111',
             'fname':'Bahri',
             'name':'Aimene',
             'age':23,
-            'friends':['u0','u2','u3'],
+            'friends':{
+              'ids':['u0','u2','u3'],
+              'allow':[true,true,true]
+            },
             'groups':['g1'],
-            'icon':'bahri.jpg'
+            'icon':'bahri.jpg',
+            'is_logged':false
         },
         'u2':{
             'mdp':'2222',
             'fname':'Kissi',
             'name':'Nazim',
             'age':22,
-            'friends':['u0','u1'],
+            'friends':{
+              'ids':['u0','u1'],
+              'allow':[true,true]
+            },
             'groups':['g1'],
-            'icon':''
+            'icon':'',
+            'is_logged':false
         },
         'u3':{
             'mdp':'3333',
             'fname':'Banana',
             'name':'Abidawi',
             'age':45,
-            'friends':['u1'],
+            'friends':{
+              'ids':['u1'],
+              'allow':[true]
+            },
             'groups':[],
-            'icon':''
+            'icon':'',
+            'is_logged':false
         }
 
 }
