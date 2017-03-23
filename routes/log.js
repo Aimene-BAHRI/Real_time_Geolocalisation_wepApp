@@ -2,24 +2,14 @@ var express = require('express');
 var controller = require('../controller/control_users')
 var router = express.Router();
 
-var u = null;
 
 router.get('/', function(req, res, next) {
-  if(u!=null)
-    if(u.profile.is_logged){
-      res.redirect('/user/goto_user');
-      }
-    else{res.redirect('/log');}
-  else {
   res.render('log');
-}
 });
-router.post('/A',function(req, res, next){
+router.post('/log_me',function(req, res, next){
   var ctr = controller.ctr_users(req,res,next)
   if(ctr.v){
-    u = ctr.user;
-    u.profile.is_logged = true;
-    module.exports = {user:u}
+    module.exports = {user:ctr.user}
     res.redirect('/user/goto_user');
   }
   else{

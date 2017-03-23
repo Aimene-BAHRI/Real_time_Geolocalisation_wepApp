@@ -7,8 +7,8 @@ module.exports = {
 
   // get the guest
   var guest = {
-      "id" : req.body.idd,
-      "mdp" : req.body.mdpp
+      "id" : req.body.display_name,
+      "mdp" : req.body.password
     };
 
   /* is the guest in the database ?

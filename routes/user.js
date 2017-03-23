@@ -17,8 +17,8 @@ router.get('/', function(req, res ,next) {
 });
 
 router.get('/goto_user',function(req,res,next){
-  is_loged = true
   user = require('./log').user;
+  is_loged = true
   res.redirect('/user');
 })
 
