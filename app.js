@@ -1,3 +1,4 @@
+// includes
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -5,13 +6,17 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// routers paths
 var home = require('./routes/home');
 var log = require('./routes/log');
 var user = require('./routes/user');
 
+// server lunsh stufs
 var http = require('http');
 var app = express();
 var server = http.createServer(app);
+
+// initialise sockets
 var socketIO = require('socket.io');
 var io = socketIO(server);
 
@@ -21,17 +26,21 @@ app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
+// make io accessible to routers
 app.use(function(req, res, next){
   res.io = io;
   next();
 });
 
+//
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// routes
 app.use('/',home);
 app.use('/log',log)
 app.use('/user',user);
@@ -54,6 +63,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// export to the main bin www
 module.exports = {
   app : app,
   server : server
