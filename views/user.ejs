@@ -31,12 +31,12 @@
     </div>
       <h3> Wellcome Back : <%= id %> </h3>
 
-    <div class="row">
+    <div  class="row">
 
-      <div class = "col-xs-6" >
+      <div id="f_box" class = "col-xs-6" >
         <ul>
-          <% for(var i =0;i<profile.friends.length;i++){ %>
-            <li><span class = "friend"><%= profile.friends[i] %><span></li>
+          <% for(var i =0;i<profile.friends.ids.length;i++){ %>
+            <li><span class = "friend"><%= profile.friends.ids[i] %><span></li>
             <% } %>
           </ul>
 
@@ -50,15 +50,15 @@
 
       </div>
 
-      <div class = "col-xs-6 ">
+      <div id="g_box" class = "col-xs-6 ">
         <ul>
           <% for(var i =0;i<profile.groups.length;i++){ %>
             <li><span class = "group"><%= profile.groups[i] %><span></li>
             <% } %>
           </ul>
 
-          <form id ="group-form" action="" >
-            <input type="text">
+          <form id ="group-form"  >
+            <input type="text"id="g_mess">
             <button>Send</button>
           </form>
           <ul>
@@ -74,7 +74,19 @@
 
       <script src="/socket.io/socket.io.js"></script>
       <script>
-        
+      $(function(){
+        var socket = io();
+
+        $("#g_box form button").click(function(req,res){
+          socket.emit('mess',{mess:$('#g_mess').val()})
+          
+        })
+        socket.on('msg',function (data) {
+          $('#g_box ul').append($('<li>').text(data))
+        })
+
+      })
+
       </script>
   </body>
 </html>

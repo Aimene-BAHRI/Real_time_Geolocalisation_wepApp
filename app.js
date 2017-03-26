@@ -4,10 +4,12 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var cookieSession = require('cookie-session')
 var bodyParser = require('body-parser');
 
 // routers paths
 var home = require('./routes/home');
+var web = require('./routes/web');
 var log = require('./routes/log');
 var user = require('./routes/user');
 
@@ -24,12 +26,24 @@ var io = socketIO(server);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// cookies
+app .use( cookieParser() )
+    .use ( cookieSession ({
+        secret : 'todotopsecret'
+
+    }) )
+    .use ( bodyParser() )
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 // make io accessible to routers
 app.use(function(req, res, next){
   res.io = io;
+  if ( typeof( req.session.user ) == 'undefined') {
+            req.session.user = null;
+            }
+
   next();
 });
 
@@ -40,10 +54,24 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
+var clients =[]
+
+
+
 // routes
 app.use('/',home);
-app.use('/log',log)
+app.use('/web',web);
+app.use('/log',log);
 app.use('/user',user);
+
+
+
+
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -66,5 +94,6 @@ app.use(function(err, req, res, next) {
 // export to the main bin www
 module.exports = {
   app : app,
-  server : server
+  server : server,
+  clients : clients
 };

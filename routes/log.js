@@ -1,5 +1,6 @@
 var express = require('express');
-var controller = require('../controller/control_users')
+var controller = require('../controller/control_users');
+var db = require('../my_data_base/my_users.js').users;
 var router = express.Router();
 
 
@@ -9,7 +10,16 @@ router.get('/', function(req, res, next) {
 router.post('/log_me',function(req, res, next){
   var ctr = controller.ctr_users(req,res,next)
   if(ctr.v){
-    module.exports = {user:ctr.user}
+
+    db[ctr.id]['is_logged'] = true;
+
+    module.exports = {
+
+      user : {
+        'id':ctr.id,
+        'profile':db[ctr.id]
+        }
+    }
     res.redirect('/user/goto_user');
   }
   else{

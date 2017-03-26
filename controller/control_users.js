@@ -1,5 +1,5 @@
 // include my users database
-var users = require('../my_data_base/my_users');
+var users = require('../my_data_base/my_users').users;
 
 module.exports = {
 
@@ -23,10 +23,7 @@ module.exports = {
 
           return{
             'v':true,
-            'user':{
-              'id':guest.id,
-              'profile':users[guest.id]
-            }
+            'id':guest.id,
           }
         }
           else
