@@ -8,13 +8,7 @@
 
         <% include ./commun/links.ejs %>
 
-    <style media="screen">
-      *{margin: 0px; padding: 0px;}
-      .profile{display: inline-block;margin-right: 5vh}
-      #info_user{margin: 5vh;}
-      .box{display: inline-block; width: 49vw;}
-    </style>
-
+    <link rel="stylesheet" href="/stylesheets/style_user.css">
   </head>
   <body>
     <div id="info_user">
@@ -24,12 +18,13 @@
       </div>
       <div class = "profile">
         <p>
-         <%= profile.fname %> <br>
-         <%= profile.age %> ans
+          <%= profile.email %> <br>
+          <%= profile.fname %> <br>
+          <%= profile.age %> ans
         </p>
       </div>
     </div>
-      <h3> Wellcome Back : <%= id %> </h3>
+      <h3> Wellcome Back : <%= profile.id %> </h3>
 
     <div  class="row">
 
@@ -57,9 +52,9 @@
             <% } %>
           </ul>
 
-          <form id ="group-form"  >
+          <form id ="group-form" action="" >
             <input type="text"id="g_mess">
-            <button>Send</button>
+            <button id="gb" >Send</button>
           </form>
           <ul>
 
@@ -74,19 +69,18 @@
 
       <script src="/socket.io/socket.io.js"></script>
       <script>
-      $(function(){
+
         var socket = io();
 
-        $("#g_box form button").click(function(req,res){
-          socket.emit('mess',{mess:$('#g_mess').val()})
-          
-        })
-        socket.on('msg',function (data) {
-          $('#g_box ul').append($('<li>').text(data))
+        $("#group-form").submit(function(){
+          if($("#g_mess").val()!="")
+            socket.emit("mess",$("#g_mess").val())
         })
 
-      })
-
+        socket.on("msg",function(mess){
+          console.log(mess)
+          $("#g_box ul").append($("<li>").text(mess))
+        })
       </script>
   </body>
 </html>

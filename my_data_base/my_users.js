@@ -1,5 +1,7 @@
 var users = {
-        'u0':{
+        'gbenhatchi@hotmail.fr':{
+            'id':'u0',
+            'email':'gbenhatchi@hotmail.fr',
             'mdp':'0000',
             'fname':'Benhatchi',
             'name':'Moukhtar',
@@ -12,7 +14,9 @@ var users = {
             'icon':'benhatchi.jpg',
             'is_logged':false
         },
-        'u1':{
+        'bahri.aimen48@gmail.com':{
+            'id':'u1',
+            'email':'bahri.aimen48@gmail.com',
             'mdp':'1111',
             'fname':'Bahri',
             'name':'Aimene',
@@ -25,7 +29,9 @@ var users = {
             'icon':'bahri.jpg',
             'is_logged':false
         },
-        'u2':{
+        'kissi@mail.com':{
+            'id':'u2',
+            'email':'kissi@mail.com',
             'mdp':'2222',
             'fname':'Kissi',
             'name':'Nazim',
@@ -38,7 +44,9 @@ var users = {
             'icon':'',
             'is_logged':false
         },
-        'u3':{
+        'test.mail.com':{
+            'id':'u3',
+            'email':'test.mail.com',
             'mdp':'3333',
             'fname':'Banana',
             'name':'Abidawi',

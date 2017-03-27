@@ -1,39 +1,48 @@
+
+
+// Includes
 var express = require('express');
 var router = express.Router();
-
-
-var i  = 0;
+//---------------------------------
 
 
 
+//-------------------------------<Get>-----------------------------------------
+
+// Get the user page directly
 router.get('/', function(req, res ,next) {
 
-
-    if (req.session.user!=null){
-      res.render('user',{'id':req.session.user.id,'profile':req.session.user.profile});
-}
-
+  if (req.session.user!=null){
+    res.render('user',{'profile':req.session.user});
+  }
   else{
     res.send('login before come to this page');
   }
 
-  res.io.on('connection',function (req,res) {
-    console.log('new user '+i+' connected')
-    i++;
+/*
+  res.io.on('connection',function (client) {
 
-  }).on('mess',function (m) {
-    res.io.emit('msg',m.mess)
+    client.on("mess",function(mess){
+      console.log(mess)
+      client.emit("msg",mess)
+    })
   })
-});
+*/
 
+});
+//---------------------------------------------------------------------------
+
+
+// Get the user page by redirect
 router.get('/goto_user',function(req,res,next){
-  var user = require('./log').user;
-  req.session.user = user;
   res.redirect('/user');
 })
+//------------------------------------------------
 
 
 
+//--------------------------<<Exports>>--------------------------
 
-
+// Export to the app
 module.exports = router;
+//----------------------

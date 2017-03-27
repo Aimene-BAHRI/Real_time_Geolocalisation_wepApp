@@ -1,36 +1,32 @@
-// include my users database
+
+// Include my users database
 var users = require('../my_data_base/my_users').users;
+//----------------------------------------------------
 
+// Export the control
 module.exports = {
-
   ctr_users : function(req,res, next){
 
-  // get the guest
+  /* Get the guest */
   var guest = {
-      "id" : req.body.display_name,
+      "email" : req.body.display_email,
       "mdp" : req.body.password
     };
 
   /* is the guest in the database ?
-  * if existe ---> go to home page
-  * else go back to the login page
+  * if existe ---> return true & the user itself
+  * else ---> return false
   */
-  if (guest.id in users && (guest.mdp == users[guest.id]['mdp'])){
-            /*res.render('home',{
-              'id':guest.id,
-              'profile':users[guest.id]
-            });*/
-
+  if (guest.email in users && (guest.mdp == users[guest.email]['mdp'])){
           return{
             'v':true,
-            'id':guest.id,
-          }
-        }
-          else
-            /*res.render('log');*/
-            return{
-              'v':false
+            'email':guest.email
             }
-
+        }
+        else
+          return{
+            'v':false
+            }
   }
 };
+//-------------------------------------------------------------------------

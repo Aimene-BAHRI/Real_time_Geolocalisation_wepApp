@@ -1,37 +1,62 @@
+
+
+// Includes
 var express = require('express');
 var controller = require('../controller/control_users');
 var db = require('../my_data_base/my_users.js').users;
 var router = express.Router();
+//------------------------------------------------------
 
 
+
+//-------------------------------<Get>-----------------------------------------
+
+// Get the log page directly
 router.get('/', function(req, res, next) {
-  res.render('log');
+  if(req.session.user!=null)
+    res.redirect('/user/goto_user');
+  else {
+    res.render('log');
+  }
 });
+//----------------------------------------
+
+
+// Get the log page by redirect
+router.get('/goto_log',function(req, res, next) {
+  res.redirect('/log');
+});
+//----------------------------------------------------------
+
+
+
+//-------------------------------<Post>-----------------------------------------
+
+// Post : the user want to log
 router.post('/log_me',function(req, res, next){
-  var ctr = controller.ctr_users(req,res,next)
+  /* Controlling the information  */
+  var ctr = controller.ctr_users(req,res,next);
+
   if(ctr.v){
+    /* Existe */
+    db[ctr.email]['is_logged'] = true;
+    req.session.user = db[ctr.email];
 
-    db[ctr.id]['is_logged'] = true;
-
-    module.exports = {
-
-      user : {
-        'id':ctr.id,
-        'profile':db[ctr.id]
-        }
-    }
     res.redirect('/user/goto_user');
   }
   else{
+    /* Doesn't existe */
+
+    //TODO create user 
     res.redirect('/log/goto_log');
   }
 })
-  router.get('/goto_log',function(req, res, next) {
-    // todo add sockets to know if the user is already logged
-        res.redirect('/log');
+//-----------------------------------------------
 
 
-  });
 
+//--------------------------<<Exports>>--------------------------
 
+// Export to the app
 module.exports = router;
+//----------------------
