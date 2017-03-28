@@ -20,7 +20,6 @@ var server = http.createServer(app);
 
 // Routers paths
 var dashboard = require('./routes/dashboard');
-//var web = require('./routes/web');
 var log = require('./routes/log');
 var user = require('./routes/user');
 //---------------------------------------------
@@ -28,7 +27,29 @@ var user = require('./routes/user');
 
 // Initialise sockets
 var socketIO = require('socket.io');
-var io = socketIO(server);
+var io_clients = socketIO(server);
+//-----------------------------------
+
+
+// Sockets events handler
+
+/* When any user connect to his page */
+io_clients.on("connection",function (client) {
+  console.log("Wellcome ");
+
+  /* When current client send message */
+  client.on('g-chat',function (mess) {
+    console.log(mess)
+    //io_clients.emit('ret-g-chat',mess)
+    client.broadcast.emit('ret-g-chat',mess)
+  })
+
+  /* When this client disconect */
+  client.on("disconnect",function () {
+    console.log("good by ");
+  });
+
+});
 //-----------------------------------
 
 
@@ -57,7 +78,7 @@ app.use ( bodyParser() );
 app.use(function(req, res, next){
 
   /* Make io accessible to routers */
-  res.io = io;
+  //res.io_clients = io;
 
   /* Create a session if doesnt existe */
   if ( typeof( req.session.user ) == 'undefined') {
@@ -80,7 +101,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routers
 app.use('/',dashboard);
-//app.use('/web',web);
 app.use('/log',log);
 app.use('/user',user);
 //--------------------
@@ -118,6 +138,6 @@ app.use(function(err, req, res, next) {
 // Export to the main bin www
 module.exports = {
   app : app,
-  server : server
+  server : server,
 };
 //---------------------------

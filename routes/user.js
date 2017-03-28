@@ -13,21 +13,15 @@ var router = express.Router();
 router.get('/', function(req, res ,next) {
 
   if (req.session.user!=null){
-    res.render('user',{'profile':req.session.user});
+
+      res.render('user',{'profile':req.session.user});
+
   }
   else{
     res.send('login before come to this page');
   }
 
-/*
-  res.io.on('connection',function (client) {
 
-    client.on("mess",function(mess){
-      console.log(mess)
-      client.emit("msg",mess)
-    })
-  })
-*/
 
 });
 //---------------------------------------------------------------------------

@@ -47,7 +47,10 @@ router.post('/log_me',function(req, res, next){
   else{
     /* Doesn't existe */
 
-    //TODO create user 
+    //TODO create factid user
+    //TODO send validation code to the email user
+    //TODO wait validation
+    
     res.redirect('/log/goto_log');
   }
 })

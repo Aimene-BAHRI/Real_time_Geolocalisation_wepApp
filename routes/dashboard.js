@@ -13,6 +13,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   req.session.user=null;
   console.log(req.session)
+  
   res.render('dashboard');
 });
 //---------------------------------------

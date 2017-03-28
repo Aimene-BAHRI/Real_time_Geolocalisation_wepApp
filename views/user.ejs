@@ -24,10 +24,11 @@
         </p>
       </div>
     </div>
-      <h3> Wellcome Back : <%= profile.id %> </h3>
+
+    <h3> Wellcome Back : <%= profile.id %> </h3>
 
     <div  class="row">
-
+      <!--
       <div id="f_box" class = "col-xs-6" >
         <ul>
           <% for(var i =0;i<profile.friends.ids.length;i++){ %>
@@ -52,7 +53,7 @@
             <% } %>
           </ul>
 
-          <form id ="group-form" action="" >
+          <form id ="group-form" >
             <input type="text"id="g_mess">
             <button id="gb" >Send</button>
           </form>
@@ -61,6 +62,18 @@
           </ul>
 
       </div>
+    -->
+    <div class="col-xs-12">
+
+      <form action="" method="" onsubmit="">
+        <input type="text" id="message">
+        <button>send</button>
+      </form>
+
+      <ul>
+
+      </ul>
+    </div>
 
     </div>
       <!--defindes scripts-->
@@ -68,19 +81,43 @@
       <% include ./commun/scripts.ejs %>
 
       <script src="/socket.io/socket.io.js"></script>
+
       <script>
 
-        var socket = io();
+      // Wait all the page to load
+      $(document).ready(function(){
 
-        $("#group-form").submit(function(){
-          if($("#g_mess").val()!="")
-            socket.emit("mess",$("#g_mess").val())
-        })
+        // Io initialize
+        var socket_server = io();
+        console.log(socket_server)
+        //----------------
 
-        socket.on("msg",function(mess){
-          console.log(mess)
-          $("#g_box ul").append($("<li>").text(mess))
+        // Send message to server
+          $("form").submit(function () {
+            if ($("#message").val() != ""){
+              socket_server.emit("g-chat",$("#message").val());
+              $("ul").append($('<li>').text($("#message").val()))
+              $("#message").val("")
+          }
+            return false;
+          })
+        //-----------------------------------------------
+
+        // Get message from server
+        socket_server.on('ret-g-chat',function (mess) {
+          $("ul").append($('<li>').text(mess))
         })
+        //-----------------------------------------------
+
+        // Disconnect if refresh or change url
+        $(window).on('unload',function(){
+            socket_server.disconnect()
+        })
+        //------------------------
+
+        return false;
+      })
+      //--------------------------------------------------
       </script>
   </body>
 </html>
