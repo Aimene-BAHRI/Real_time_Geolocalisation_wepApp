@@ -130,22 +130,29 @@
 
 
         // Change current user && current group
+
+        /* The current user  */
         let me = {
           email:$("#user-email").text(),
           id : $("#user-id").text()
         };
 
+        /* Current friend selected */
+        $("#f-list li").first().attr({
+          class : 'selected'
+        })
         let c_f ={
-          email:null,
-          id:null
+          email:$("#f-list li").first().find(".friend").text(),
+          id:$("#f-list li").first().find(".friend-id").text()
         };
 
-        let c_g ={
-          email:null,
-          id:null
-        };
+        /* Current group selected */
+        $("#g-list li").first().attr({
+          class : 'selected'
+        })
+        let c_g =$("#g-list li").first().text();
 
-        /* Current friend */
+        /* Update current friend */
         $("#f-list li ").click(function () {
           c_f.email = $(this).find(".friend").text();
           c_f.id = $(this).find(".friend-id").text();
@@ -160,7 +167,7 @@
           })
         })
 
-        /* Current group */
+        /* Update current group */
         $("#g-list li").click(function () {
           c_g = $(this).text();
 
@@ -172,36 +179,85 @@
             class :"selected"
           })
         })
-        //-----------------
+
+
+        //-------------------------------------
 
 
         // Send message to server
 
-          /* Group message in current group */
+          /* Send message to current friend */
           $("#f-chat-box").submit(function () {
-            if ($("#f-mess").val() != ""){
+            if($("#f-list li").length != 0)
+              if ($("#f-mess").val() != ""){
 
-              // TEST
-              console.log('I SEND : '+$("#f-mess").val()+' to : '+c_f.email);
+                socket_server.emit('f-chat',{
+                  from:me.email,
+                  to:c_f.email,
+                  txt:$("#f-mess").val()
+                });
 
-              socket_server.emit('f-chat',{
-                from:me.email,
-                to:c_f.email,
-                txt:$("#f-mess").val()
-              });
-
-              $("#f-chat-text").append($('<li>').text($("#f-mess").val()))
-              $("#f-mess").val("")
-          }
+                $("#f-chat-text").append($('<li>').text($("#f-mess").val()))
+                $("#f-mess").val("")
+            }
             return false;
           })
+
+          /* Send message to current group */
+          $("#g-chat-box").submit(function () {
+            if($("#g-list li").length != 0)
+              if ($("#g-mess").val() != ""){
+
+                socket_server.emit('g-chat',{
+                  from:me.email,
+                  to:c_g,
+                  txt:$("#g-mess").val()
+                });
+
+                $("#g-chat-text").append($('<li>').text($("#g-mess").val()))
+                $("#g-mess").val("")
+              }
+            return false;
+          })
+
+
         //-----------------------------------------------
 
 
         // Get message from server
-        socket_server.on("u0-u1"/*me.id+'-'+c_f.id*/,function (mess) {
-          $("#f-chat-text").append($('<li>').text(mess))
-        })
+
+        /* Set id's friends list */
+        var friends = [];
+        var listItems_f = $("#f-list li");
+        listItems_f.each(function(index, li) {
+            friends.push($(li).find(".friend-id").text());
+        });
+
+        /* Get message from each friends */
+        friends.forEach(function(f, index) {
+          socket_server.on(me.id+"-"+f,function (mess) {
+            $("#f-chat-text").append($('<li>').text(mess))
+          })
+        });
+
+        /* set groups list */
+        var groups = [];
+        var listItems_g = $("#g-list li");
+        listItems_g.each(function(index, li) {
+            groups.push($(li).text());
+        });
+
+        /* Get message from each friends */
+        groups.forEach(function(g, index) {
+          socket_server.on(g,function (mess) {
+            $("#g-chat-text").append($('<li>').text(mess))
+          })
+        });
+
+
+        /* Get message from each group */
+        //TODO
+
         //-----------------------------------------------
 
 
@@ -213,7 +269,7 @@
 
         return false;
       })
-      //--------------------------------------------------
+    //--------------------------------------------------
       </script>
   </body>
 </html>

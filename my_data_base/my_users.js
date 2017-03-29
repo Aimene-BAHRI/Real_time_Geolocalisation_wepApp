@@ -31,7 +31,7 @@ var users = {
               'ids':[
                 "gbenhatchi@hotmail.fr",
                 "kissi@mail.com",
-                "test.mail.com"
+                "test@mail.com"
               ],
               'allows':[
                 true,
@@ -64,9 +64,9 @@ var users = {
             'icon':'',
             'is_logged':false
         },
-        'test.mail.com':{
+        'test@mail.com':{
             'id':'u3',
-            'email':'test.mail.com',
+            'email':'test@mail.com',
             'mdp':'3333',
             'fname':'Banana',
             'name':'Abidawi',

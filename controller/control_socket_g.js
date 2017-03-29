@@ -13,22 +13,16 @@ module.exports = {
         to : exc.to
       };
 
-    /* is the recipiant in your friend list
-    * && is he allowing uto
-    *
-    */
-    if ( exchange.to in users &&
-          ( users[exchange.to].friends.ids.indexOf(exchange.from)!= -1 &&
-                users[exchange.to].friends.allows[ users[exchange.to].friends.ids.indexOf(exchange.from) ] == true   ) ){
-
+    /* is the group in your group list
+      */
+    if ( users[exchange.from].groups.indexOf(exchange.to)!= -1 ){
             return{
               'v':true,
-              'target': users[exchange.to].id+"-"+users[exchange.from].id
               }
 
           }
           else{
-            console.log("no")
+          
             return{
               'v':false
               }

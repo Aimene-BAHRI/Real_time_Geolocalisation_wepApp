@@ -36,25 +36,35 @@ var io_clients = socketIO(server);
 /* When any user connect to his page */
 io_clients.on("connection",function (client) {
   console.log("Wellcome ");
-  var controller = require('./controller/control_socket');
+
+  /* Call controllers */
+  var controller_f = require('./controller/control_socket_f');
+  var controller_g = require('./controller/control_socket_g');
 
   /* When current client send message to a friend */
   client.on('f-chat',function (packet) {
 
-    // test
-    console.log(packet.from +': SEND '+packet.txt+' TO : '+packet.to)
-
-
-    var ctr = controller.ctr_socket({
+    var ctr_f = controller_f.ctr_socket({
       from :packet.from,
       to: packet.to
     })
 
-    console.log(ctr.v)
-    if (ctr.v) {
-        console.log(ctr.target)
-        console.log(packet.txt)
-        client.broadcast.emit(ctr.target,packet.txt)
+    if (ctr_f.v) {
+        client.broadcast.emit(ctr_f.target,packet.txt)
+    }
+
+  })
+
+  /* When current client send message to a group */
+  client.on('g-chat',function (packet) {
+
+    var ctr_g = controller_g.ctr_socket({
+      from :packet.from,
+      to: packet.to
+    })
+
+    if (ctr_g.v) {
+        client.broadcast.emit(packet.to,packet.txt);
     }
 
   })
@@ -91,9 +101,6 @@ app.use ( bodyParser() );
 
 // Add some data to reqestes and responces
 app.use(function(req, res, next){
-
-  /* Make io accessible to routers */
-  //res.io_clients = io;
 
   /* Create a session if doesnt existe */
   if ( typeof( req.session.user ) == 'undefined') {
