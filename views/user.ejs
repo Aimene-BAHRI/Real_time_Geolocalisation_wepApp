@@ -11,71 +11,108 @@
     <link rel="stylesheet" href="/stylesheets/style_user.css">
   </head>
   <body>
+
+
+
+    <!--user nav-->
     <div id="info_user">
 
-      <div class = "profile">
+      <!--profile pic-->
+      <span id ="picture" class = "profile">
         <img  src="/images/profile_pic/<% if(profile.icon != "") { %><%= profile.icon %><% } else { %><%= 'none.png' %><% } %>" alt="" height="50px" width="50px">
-      </div>
-      <div class = "profile">
-        <p>
-          <%= profile.email %> <br>
-          <%= profile.fname %> <br>
-          <%= profile.age %> ans
-        </p>
-      </div>
+      </span>
+
+      <!--profile info-->
+      <span id="info-perso" class = "profile">
+        <ul>
+          <li id ="user-email"><%= profile.email %></li>
+          <li id ="user-fname"><%= profile.fname %></li>
+          <li id ="user-age"><%= profile.age %> ans</li>
+        </ul>
+      </span>
+
+
     </div>
 
-    <h3> Wellcome Back : <%= profile.id %> </h3>
+    <h3> Wellcome Back : <p id="user-id"><%= profile.id %></p> </h3>
 
     <div  class="row">
-      <!--
-      <div id="f_box" class = "col-xs-6" >
-        <ul>
-          <% for(var i =0;i<profile.friends.ids.length;i++){ %>
-            <li><span class = "friend"><%= profile.friends.ids[i] %><span></li>
-            <% } %>
+
+
+<!--the friends-->
+
+      <div id="f-box" class = "col-xs-6" >
+
+          <!--friend list-->
+          <ul id="f-list">
+              <% for(var i =0;i<profile.friends.ids.length;i++){ %>
+                <li class ="not-selected" ><span class = "friend"><%= profile.friends.ids[i] %></span><span> : </span><span class = "friend-id"><%= bdd[profile.friends.ids[i]].id %></span></li>
+                <% } %>
           </ul>
 
-          <form id ="friend-form" action="" >
-            <input type="text">
+          <!--friend chat-->
+          <form id ="f-chat-box" >
+            <input id = "f-mess" type="text">
             <button>Send</button>
           </form>
-          <ul>
+          <ul id="f-chat-text">
 
           </ul>
 
       </div>
 
-      <div id="g_box" class = "col-xs-6 ">
-        <ul>
-          <% for(var i =0;i<profile.groups.length;i++){ %>
-            <li><span class = "group"><%= profile.groups[i] %><span></li>
+
+
+  <!--the groupes-->
+      <div id="g-box" class = "col-xs-6 ">
+
+        <!--groupes list-->
+        <ul id="g-list">
+          <%  for(var i =0;i<profile.groups.length;i++){ %>
+            <li class ="not-selected"><span class = "group"><%= profile.groups[i] %><span></li>
             <% } %>
           </ul>
 
-          <form id ="group-form" >
-            <input type="text"id="g_mess">
-            <button id="gb" >Send</button>
+          <!--groupes chat-->
+          <form id="g-chat-box" >
+            <input id="g-mess" type="text">
+            <button>Send</button>
           </form>
-          <ul>
+
+          <ul id="g-chat-text" >
 
           </ul>
 
       </div>
-    -->
-    <div class="col-xs-12">
 
-      <form action="" method="" onsubmit="">
-        <input type="text" id="message">
-        <button>send</button>
-      </form>
 
-      <ul>
 
-      </ul>
+
+
+
+          <!--       The teste      -->
+        <!--
+        <div class="col-xs-12">
+
+          <form action="" method="" onsubmit="">
+            <input type="text" id="message">
+            <button>send</button>
+          </form>
+
+          <ul>
+
+          </ul>
+        </div>
+      -->
+
+
+
+
     </div>
 
-    </div>
+
+
+
       <!--defindes scripts-->
 
       <% include ./commun/scripts.ejs %>
@@ -89,25 +126,84 @@
 
         // Io initialize
         var socket_server = io();
-        console.log(socket_server)
         //----------------
 
+
+        // Change current user && current group
+        let me = {
+          email:$("#user-email").text(),
+          id : $("#user-id").text()
+        };
+
+        let c_f ={
+          email:null,
+          id:null
+        };
+
+        let c_g ={
+          email:null,
+          id:null
+        };
+
+        /* Current friend */
+        $("#f-list li ").click(function () {
+          c_f.email = $(this).find(".friend").text();
+          c_f.id = $(this).find(".friend-id").text();
+
+
+          $(this).parent().find("li").attr({
+            class :"not-selected"
+          })
+
+          $(this).attr({
+            class :"selected"
+          })
+        })
+
+        /* Current group */
+        $("#g-list li").click(function () {
+          c_g = $(this).text();
+
+          $(this).parent().find("li").attr({
+            class :"not-selected"
+          })
+
+          $(this).attr({
+            class :"selected"
+          })
+        })
+        //-----------------
+
+
         // Send message to server
-          $("form").submit(function () {
-            if ($("#message").val() != ""){
-              socket_server.emit("g-chat",$("#message").val());
-              $("ul").append($('<li>').text($("#message").val()))
-              $("#message").val("")
+
+          /* Group message in current group */
+          $("#f-chat-box").submit(function () {
+            if ($("#f-mess").val() != ""){
+
+              // TEST
+              console.log('I SEND : '+$("#f-mess").val()+' to : '+c_f.email);
+
+              socket_server.emit('f-chat',{
+                from:me.email,
+                to:c_f.email,
+                txt:$("#f-mess").val()
+              });
+
+              $("#f-chat-text").append($('<li>').text($("#f-mess").val()))
+              $("#f-mess").val("")
           }
             return false;
           })
         //-----------------------------------------------
 
+
         // Get message from server
-        socket_server.on('ret-g-chat',function (mess) {
-          $("ul").append($('<li>').text(mess))
+        socket_server.on("u0-u1"/*me.id+'-'+c_f.id*/,function (mess) {
+          $("#f-chat-text").append($('<li>').text(mess))
         })
         //-----------------------------------------------
+
 
         // Disconnect if refresh or change url
         $(window).on('unload',function(){

@@ -7,8 +7,14 @@ var users = {
             'name':'Moukhtar',
             'age':22,
             'friends':{
-              'ids':['u1','u2'],
-              'allow':[true,true]
+              'ids':[
+                'bahri.aimen48@gmail.com',
+                'kissi@mail.com'
+              ],
+              'allows':[
+                true,
+                true
+              ]
             },
             'groups':['g1'],
             'icon':'benhatchi.jpg',
@@ -22,8 +28,16 @@ var users = {
             'name':'Aimene',
             'age':23,
             'friends':{
-              'ids':['u0','u2','u3'],
-              'allow':[true,true,true]
+              'ids':[
+                "gbenhatchi@hotmail.fr",
+                "kissi@mail.com",
+                "test.mail.com"
+              ],
+              'allows':[
+                true,
+                true,
+                true
+              ]
             },
             'groups':['g1'],
             'icon':'bahri.jpg',
@@ -37,8 +51,14 @@ var users = {
             'name':'Nazim',
             'age':22,
             'friends':{
-              'ids':['u0','u1'],
-              'allow':[true,true]
+              'ids':[
+                'gbenhatchi@hotmail.fr',
+                'bahri.aimen48@gmail.com'
+              ],
+              'allows':[
+                true,
+                true
+              ]
             },
             'groups':['g1'],
             'icon':'',
@@ -52,10 +72,16 @@ var users = {
             'name':'Abidawi',
             'age':45,
             'friends':{
-              'ids':['u1'],
-              'allow':[true]
+              'ids':[
+                'bahri.aimen48@gmail.com'
+              ],
+              'allows':[
+                true
+              ]
             },
-            'groups':[],
+            'groups':[
+
+            ],
             'icon':'',
             'is_logged':false
         }

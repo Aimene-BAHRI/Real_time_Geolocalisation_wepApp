@@ -14,7 +14,10 @@ router.get('/', function(req, res ,next) {
 
   if (req.session.user!=null){
 
-      res.render('user',{'profile':req.session.user});
+      res.render('user',{
+        'profile':req.session.user,
+        'bdd':require('../my_data_base/my_users').users
+      });
 
   }
   else{

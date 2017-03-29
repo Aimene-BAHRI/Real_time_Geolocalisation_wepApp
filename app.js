@@ -36,15 +36,30 @@ var io_clients = socketIO(server);
 /* When any user connect to his page */
 io_clients.on("connection",function (client) {
   console.log("Wellcome ");
+  var controller = require('./controller/control_socket');
 
-  /* When current client send message */
-  client.on('g-chat',function (mess) {
-    console.log(mess)
-    //io_clients.emit('ret-g-chat',mess)
-    client.broadcast.emit('ret-g-chat',mess)
+  /* When current client send message to a friend */
+  client.on('f-chat',function (packet) {
+
+    // test
+    console.log(packet.from +': SEND '+packet.txt+' TO : '+packet.to)
+
+
+    var ctr = controller.ctr_socket({
+      from :packet.from,
+      to: packet.to
+    })
+
+    console.log(ctr.v)
+    if (ctr.v) {
+        console.log(ctr.target)
+        console.log(packet.txt)
+        client.broadcast.emit(ctr.target,packet.txt)
+    }
+
   })
 
-  /* When this client disconect */
+  /* When current client disconect */
   client.on("disconnect",function () {
     console.log("good by ");
   });
