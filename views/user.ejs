@@ -1,275 +1,93 @@
-<!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+<head>
     <meta charset="utf-8">
-    <title>home-page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> Create Location</title>
+    <!-- Optional theme -->
+    <link href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="./stylesheets/style_user.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+<header>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3" id="friends">
+                <a href="#" class="btn btn-danger btn-block">Compose Email</a>
+                <ul class="nav nav-pills nav-stacked nav-email shadow mb-20">
+                    <li class="active">
+                        <a href="#mail-inbox.html">
+                            <i class="fa fa-inbox"></i> Inbox  <span class="label pull-right">7</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#mail-compose.html"><i class="fa fa-envelope-o"></i> Send Mail</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-certificate"></i> Important</a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-file-text-o"></i> Drafts <span class="label label-info pull-right inbox-notification">35</span>
+                        </a>
+                    </li>
+                    <li><a href="#"> <i class="fa fa-trash-o"></i> Trash</a></li>
+                </ul>
+            </div>
 
-        <!--defined css links-->
-
-        <% include ./commun/links.ejs %>
-
-    <link rel="stylesheet" href="/stylesheets/style_user.css">
-  </head>
-  <body>
-
-
-
-    <!--user nav-->
-    <div id="info_user">
-
-      <!--profile pic-->
-      <span id ="picture" class = "profile">
-        <img  src="/images/profile_pic/<% if(profile.icon != "") { %><%= profile.icon %><% } else { %><%= 'none.png' %><% } %>" alt="" height="50px" width="50px">
-      </span>
-
-      <!--profile info-->
-      <span id="info-perso" class = "profile">
-        <ul>
-          <li id ="user-email"><%= profile.email %></li>
-          <li id ="user-fname"><%= profile.fname %></li>
-          <li id ="user-age"><%= profile.age %> ans</li>
-        </ul>
-      </span>
-
-
-    </div>
-
-    <h3> Wellcome Back : <p id="user-id"><%= profile.id %></p> </h3>
-
-    <div  class="row">
-
-
-<!--the friends-->
-
-      <div id="f-box" class = "col-xs-6" >
-
-          <!--friend list-->
-          <ul id="f-list">
-              <% for(var i =0;i<profile.friends.ids.length;i++){ %>
-                <li class ="not-selected" ><span class = "friend"><%= profile.friends.ids[i] %></span><span> : </span><span class = "friend-id"><%= bdd[profile.friends.ids[i]].id %></span></li>
-                <% } %>
-          </ul>
-
-          <!--friend chat-->
-          <form id ="f-chat-box" >
-            <input id = "f-mess" type="text">
-            <button>Send</button>
-          </form>
-          <ul id="f-chat-text">
-
-          </ul>
-
-      </div>
-
-
-
-  <!--the groupes-->
-      <div id="g-box" class = "col-xs-6 ">
-
-        <!--groupes list-->
-        <ul id="g-list">
-          <%  for(var i =0;i<profile.groups.length;i++){ %>
-            <li class ="not-selected"><span class = "group"><%= profile.groups[i] %><span></li>
-            <% } %>
-          </ul>
-
-          <!--groupes chat-->
-          <form id="g-chat-box" >
-            <input id="g-mess" type="text">
-            <button>Send</button>
-          </form>
-
-          <ul id="g-chat-text" >
-
-          </ul>
-
-      </div>
-
-
-
-
-
-
-          <!--       The teste      -->
-        <!--
-        <div class="col-xs-12">
-
-          <form action="" method="" onsubmit="">
-            <input type="text" id="message">
-            <button>send</button>
-          </form>
-
-          <ul>
-
-          </ul>
+            <div  id="head2" class="col-xs-10 col-md-9">
+             <div id="map"></div>
+           </div>
         </div>
-      -->
-
-
-
-
     </div>
+</header>
+<!-- Latest compiled and minified JavaScript -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="https;//cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgBSxB0syh46vpR1BSovYNbuvKRa3ligc&callback=initMap"></script>
+<script>
+    // Note: This example requires that you consent to location sharing when
+    // prompted by your browser. If you see the error "The Geolocation service
+    // failed.", it means you probably did not give permission for the browser to
+    // locate you.
 
-
-
-
-      <!--defindes scripts-->
-
-      <% include ./commun/scripts.ejs %>
-
-      <script src="/socket.io/socket.io.js"></script>
-
-      <script>
-
-      // Wait all the page to load
-      $(document).ready(function(){
-
-        // Io initialize
-        var socket_server = io();
-        //----------------
-
-
-        // Change current user && current group
-
-        /* The current user  */
-        let me = {
-          email:$("#user-email").text(),
-          id : $("#user-id").text()
-        };
-
-        /* Current friend selected */
-        $("#f-list li").first().attr({
-          class : 'selected'
-        })
-        let c_f ={
-          email:$("#f-list li").first().find(".friend").text(),
-          id:$("#f-list li").first().find(".friend-id").text()
-        };
-
-        /* Current group selected */
-        $("#g-list li").first().attr({
-          class : 'selected'
-        })
-        let c_g =$("#g-list li").first().text();
-
-        /* Update current friend */
-        $("#f-list li ").click(function () {
-          c_f.email = $(this).find(".friend").text();
-          c_f.id = $(this).find(".friend-id").text();
-
-
-          $(this).parent().find("li").attr({
-            class :"not-selected"
-          })
-
-          $(this).attr({
-            class :"selected"
-          })
-        })
-
-        /* Update current group */
-        $("#g-list li").click(function () {
-          c_g = $(this).text();
-
-          $(this).parent().find("li").attr({
-            class :"not-selected"
-          })
-
-          $(this).attr({
-            class :"selected"
-          })
-        })
-
-
-        //-------------------------------------
-
-
-        // Send message to server
-
-          /* Send message to current friend */
-          $("#f-chat-box").submit(function () {
-            if($("#f-list li").length != 0)
-              if ($("#f-mess").val() != ""){
-
-                socket_server.emit('f-chat',{
-                  from:me.email,
-                  to:c_f.email,
-                  txt:$("#f-mess").val()
-                });
-
-                $("#f-chat-text").append($('<li>').text($("#f-mess").val()))
-                $("#f-mess").val("")
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 8,
+            center: {
+                lat:35.707439,
+                long:-0.5713722
             }
-            return false;
-          })
-
-          /* Send message to current group */
-          $("#g-chat-box").submit(function () {
-            if($("#g-list li").length != 0)
-              if ($("#g-mess").val() != ""){
-
-                socket_server.emit('g-chat',{
-                  from:me.email,
-                  to:c_g,
-                  txt:$("#g-mess").val()
-                });
-
-                $("#g-chat-text").append($('<li>').text($("#g-mess").val()))
-                $("#g-mess").val("")
-              }
-            return false;
-          })
-
-
-        //-----------------------------------------------
-
-
-        // Get message from server
-
-        /* Set id's friends list */
-        var friends = [];
-        var listItems_f = $("#f-list li");
-        listItems_f.each(function(index, li) {
-            friends.push($(li).find(".friend-id").text());
         });
+        var infoWindow = new google.maps.InfoWindow({map: map});
 
-        /* Get message from each friends */
-        friends.forEach(function(f, index) {
-          socket_server.on(me.id+"-"+f,function (mess) {
-            $("#f-chat-text").append($('<li>').text(mess))
-          })
-        });
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
 
-        /* set groups list */
-        var groups = [];
-        var listItems_g = $("#g-list li");
-        listItems_g.each(function(index, li) {
-            groups.push($(li).text());
-        });
+                infoWindow.setPosition(pos);
+                infoWindow.setContent('Location found.');
+                map.setCenter(pos);
+            }, function() {
+                handleLocationError(true, infoWindow, map.getCenter());
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+    }
 
-        /* Get message from each friends */
-        groups.forEach(function(g, index) {
-          socket_server.on(g,function (mess) {
-            $("#g-chat-text").append($('<li>').text(mess))
-          })
-        });
-
-
-        /* Get message from each group */
-        //TODO
-
-        //-----------------------------------------------
-
-
-        // Disconnect if refresh or change url
-        $(window).on('unload',function(){
-            socket_server.disconnect()
-        })
-        //------------------------
-
-        return false;
-      })
-    //--------------------------------------------------
-      </script>
-  </body>
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                'Error: The Geolocation service failed.' :
+                'Error: Your browser doesn\'t support geolocation.');
+    }
+</script>
+</body>
 </html>

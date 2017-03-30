@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>SignIN</title>
+
+    <!--defined css links-->
+
+    <% include ./commun/links.ejs %>
+
+    <link rel="stylesheet" href="/stylesheets/style_log.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+          <form role="form" action="/log/log_me" method="post">
+            <h2>Sign In Form</h2>
+            <hr class="colorgraph">
+            <div class="row">
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="form-group">
+                  <input type="text" name="display_email" id="display_email" class="form-control input-lg" placeholder="Display @Email" tabindex="1">
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="form-group">
+                  <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" tabindex="2">
+                </div>
+              </div>
+            </div>
+            <hr class="colorgraph">
+            <div class="row">
+              <div class="col-xs-12 col-md-6">
+                <input type="submit" value="signin" class="btn btn-primary btn-block btn-lg" tabindex="3">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!--defindes scripts-->
+
+    <% include ./commun/scripts.ejs %>
+
+    </body>
+</html>

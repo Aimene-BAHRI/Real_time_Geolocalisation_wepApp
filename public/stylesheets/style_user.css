@@ -1,12 +1,49 @@
-*{margin: 0px; padding: 0px; box-sizing: border-box;}
-.profile{display: inline-block;margin-right: 5vh}
-#info_user{margin: 5vh;}
-.box{display: inline-block; width: 49vw;}
-
-.not-selected{
-  color: black;
+* {
+    box-sizing: border-box;
+    font-family: arial, sans-serif;
+    color: black;
 }
-
-.selected{
-  color: blue;
+header {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2)), url("http://unsplash.com/photos/9idqIGrLuTE/download?force=true");
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+}
+.container {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+#head {
+    height: 40px;
+    margin: 0 0 -15px 0;
+    padding: 0 0 0 0;
+}
+.user_img {
+    height: 4vh;
+    width: 4vw;
+    display: inline;
+    float: left;
+    margin-right: 2%;
+    margin-left: 2%;
+}
+.content {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2)), url("http://unsplash.com/photos/9idqIGrLuTE/download?force=true");
+    background-size: cover;
+}
+#friends {
+    background-color: #0fe9ff;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+#head2 {
+    margin: 0;
+    padding: 0;
+}
+#map {
+    background-color: #0fe9ff;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
 }

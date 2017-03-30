@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>home-page</title>
+
+        <!--defined css links-->
+
+        <% include ./commun/links.ejs %>
+
+    <link rel="stylesheet" href="/stylesheets/style_user.css">
+  </head>
+  <body>
+
+
+
+    <!--user nav-->
+    <div id="info_user">
+
+      <!--profile pic-->
+      <span id ="picture" class = "profile">
+        <img  src="/images/profile_pic/<% if(profile.icon != "") { %><%= profile.icon %><% } else { %><%= 'none.png' %><% } %>" alt="" height="50px" width="50px">
+      </span>
+
+      <!--profile info-->
+      <span id="info-perso" class = "profile">
+        <ul>
+          <li id ="user-email"><%= profile.email %></li>
+          <li id ="user-fname"><%= profile.fname %></li>
+          <li id ="user-age"><%= profile.age %> ans</li>
+        </ul>
+      </span>
+
+
+    </div>
+
+    <h3> Wellcome Back : <p id="user-id"><%= profile.id %></p> </h3>
+
+    <div  class="row">
+
+
+<!--the friends-->
+
+      <div id="f-box" class = "col-xs-6" >
+
+          <!--friend list-->
+          <ul id="f-list">
+              <% for(var i =0;i<profile.friends.ids.length;i++){ %>
+                <li class ="not-selected" ><span class = "friend"><%= profile.friends.ids[i] %></span><span> : </span><span class = "friend-id"><%= bdd[profile.friends.ids[i]].id %></span></li>
+                <% } %>
+          </ul>
+
+          <!--friend chat-->
+          <form id ="f-chat-box" >
+            <input id = "f-mess" type="text">
+            <button>Send</button>
+          </form>
+          <ul id="f-chat-text">
+
+          </ul>
+
+      </div>
+
+
+
+  <!--the groupes-->
+      <div id="g-box" class = "col-xs-6 ">
+
+        <!--groupes list-->
+        <ul id="g-list">
+          <%  for(var i =0;i<profile.groups.length;i++){ %>
+            <li class ="not-selected"><span class = "group"><%= profile.groups[i] %><span></li>
+            <% } %>
+          </ul>
+
+          <!--groupes chat-->
+          <form id="g-chat-box" >
+            <input id="g-mess" type="text">
+            <button>Send</button>
+          </form>
+
+          <ul id="g-chat-text" >
+
+          </ul>
+
+      </div>
+
+
+
+
+
+
+          <!--       The teste      -->
+        <!--
+        <div class="col-xs-12">
+
+          <form action="" method="" onsubmit="">
+            <input type="text" id="message">
+            <button>send</button>
+          </form>
+
+          <ul>
+
+          </ul>
+        </div>
+      -->
+
+
+
+
+    </div>
+
+
+
+
+      <!--defindes scripts-->
+
+      <% include ./commun/scripts.ejs %>
+
+      <script src="/socket.io/socket.io.js"></script>
+
+      <script>
+
+      // Wait all the page to load
+      $(document).ready(function(){
+
+        // Io initialize
+        var socket_server = io();
+        //----------------
+
+
+        // Change current user && current group
+
+        /* The current user  */
+        let me = {
+          email:$("#user-email").text(),
+          id : $("#user-id").text()
+        };
+
+        /* Current friend selected */
+        $("#f-list li").first().attr({
+          class : 'selected'
+        })
+        let c_f ={
+          email:$("#f-list li").first().find(".friend").text(),
+          id:$("#f-list li").first().find(".friend-id").text()
+        };
+
+        /* Current group selected */
+        $("#g-list li").first().attr({
+          class : 'selected'
+        })
+        let c_g =$("#g-list li").first().text();
+
+        /* Update current friend */
+        $("#f-list li ").click(function () {
+          c_f.email = $(this).find(".friend").text();
+          c_f.id = $(this).find(".friend-id").text();
+
+
+          $(this).parent().find("li").attr({
+            class :"not-selected"
+          })
+
+          $(this).attr({
+            class :"selected"
+          })
+        })
+
+        /* Update current group */
+        $("#g-list li").click(function () {
+          c_g = $(this).text();
+
+          $(this).parent().find("li").attr({
+            class :"not-selected"
+          })
+
+          $(this).attr({
+            class :"selected"
+          })
+        })
+
+
+        //-------------------------------------
+
+
+        // Send message to server
+
+          /* Send message to current friend */
+          $("#f-chat-box").submit(function () {
+            if($("#f-list li").length != 0)
+              if ($("#f-mess").val() != ""){
+
+                socket_server.emit('f-chat',{
+                  from:me.email,
+                  to:c_f.email,
+                  txt:$("#f-mess").val()
+                });
+
+                $("#f-chat-text").append($('<li>').text($("#f-mess").val()))
+                $("#f-mess").val("")
+            }
+            return false;
+          })
+
+          /* Send message to current group */
+          $("#g-chat-box").submit(function () {
+            if($("#g-list li").length != 0)
+              if ($("#g-mess").val() != ""){
+
+                socket_server.emit('g-chat',{
+                  from:me.email,
+                  to:c_g,
+                  txt:$("#g-mess").val()
+                });
+
+                $("#g-chat-text").append($('<li>').text($("#g-mess").val()))
+                $("#g-mess").val("")
+              }
+            return false;
+          })
+
+
+        //-----------------------------------------------
+
+
+        // Get message from server
+
+        /* Set id's friends list */
+        var friends = [];
+        var listItems_f = $("#f-list li");
+        listItems_f.each(function(index, li) {
+            friends.push($(li).find(".friend-id").text());
+        });
+
+        /* Get message from each friends */
+        friends.forEach(function(f, index) {
+          socket_server.on(me.id+"-"+f,function (mess) {
+            $("#f-chat-text").append($('<li>').text(mess))
+          })
+        });
+
+        /* set groups list */
+        var groups = [];
+        var listItems_g = $("#g-list li");
+        listItems_g.each(function(index, li) {
+            groups.push($(li).text());
+        });
+
+        /* Get message from each friends */
+        groups.forEach(function(g, index) {
+          socket_server.on(g,function (mess) {
+            $("#g-chat-text").append($('<li>').text(mess))
+          })
+        });
+
+
+        /* Get message from each group */
+        //TODO
+
+        //-----------------------------------------------
+
+
+        // Disconnect if refresh or change url
+        $(window).on('unload',function(){
+            socket_server.disconnect()
+        })
+        //------------------------
+
+        return false;
+      })
+    //--------------------------------------------------
+      </script>
+  </body>
+</html>

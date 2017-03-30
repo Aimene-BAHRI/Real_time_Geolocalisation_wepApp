@@ -1,0 +1,12 @@
+*{margin: 0px; padding: 0px; box-sizing: border-box;}
+.profile{display: inline-block;margin-right: 5vh}
+#info_user{margin: 5vh;}
+.box{display: inline-block; width: 49vw;}
+
+.not-selected{
+  color: black;
+}
+
+.selected{
+  color: blue;
+}

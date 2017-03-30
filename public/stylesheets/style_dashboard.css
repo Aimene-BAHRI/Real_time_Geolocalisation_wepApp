@@ -1,0 +1,32 @@
+/*Slider*/
+#myCarousel .nav a small
+{
+    display: block;
+}
+#myCarousel .nav
+{
+    background: #eee;
+}
+.nav-justified > li > a
+{
+    border-radius: 0px;
+}
+.nav-pills>li[data-slide-to="0"].active a { background-color: #03a06c; }
+.nav-pills>li[data-slide-to="1"].active a { background-color: #0ce6b2; }
+.nav-pills>li[data-slide-to="2"].active a { background-color: #0b4fb9; }
+.nav-pills>li[data-slide-to="3"].active a { background-color: #1107ad; }
+/*Jumbotron*/
+.jumbotron{
+    margin-bottom:20px;
+    margin-top:20px;
+    position:center;
+    text-align: center;
+    background-color: #0fe9ff;
+}
+.pricing {
+    text-align: center;
+}
+/*Page Header*/
+.page-header{
+    text-align:center;
+}
