@@ -2,6 +2,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- try-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+
     <title> Create Location</title>
     <!-- Optional theme -->
     <link href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css" rel="stylesheet">
@@ -12,26 +17,66 @@
 <header>
     <div class="container">
         <div class="row">
-            <div class="col-sm-3" id="friends">
+
+          <!-- Floating nav for User-info friends Groups and Events-->
+            <div class="col-sm-3" id="float">
+
+              <!-- Container of the float -->
+              <div class="row">
+
+                <!-- The user info -->
+                <div class="col-xs-12">
+                  <div id="info_user">
+
+                    <!--profile pic-->
+                    <span id ="picture" class = "profile">
+                      <img  src="/images/profile_pic/<% if(profile.icon != "") { %><%= profile.icon %><% } else { %><%= 'none.png' %><% } %>" alt="" height="50px" width="50px">
+                    </span>
+
+                    <!--profile info-->
+                    <span id="info-perso" class = "profile">
+                      <ul>
+                        <li id ="user-email"><%= profile.email %></li>
+                        <li id ="user-fname"><%= profile.fname %></li>
+                        <li id ="user-age"><%= profile.age %> ans</li>
+                      </ul>
+                    </span>
+
+
+                  </div>
+
+                </div>
+
+                <!-- The friend list  --><!--  -->
+                <div class="col-xs-12">
+                  <a href=""></a>
+                  <ul>
+
+                  </ul>
+                </div>
+
+                <!-- The group list -->
+                <div class="col-xs-12">
+                  <a href=""></a>
+                  <ul>
+
+                  </ul>
+                </div>
+
+                <!-- The event liste -->
+                <div class="col-xs-12">
+                  <a href=""></a>
+                  <ul>
+
+                  </ul>
+                </div>
+
+              </div>
+
+
                 <a href="#" class="btn btn-danger btn-block">Compose Email</a>
                 <ul class="nav nav-pills nav-stacked nav-email shadow mb-20">
-                    <li class="active">
-                        <a href="#mail-inbox.html">
-                            <i class="fa fa-inbox"></i> Inbox  <span class="label pull-right">7</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#mail-compose.html"><i class="fa fa-envelope-o"></i> Send Mail</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-certificate"></i> Important</a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-file-text-o"></i> Drafts <span class="label label-info pull-right inbox-notification">35</span>
-                        </a>
-                    </li>
-                    <li><a href="#"> <i class="fa fa-trash-o"></i> Trash</a></li>
+
                 </ul>
             </div>
 
