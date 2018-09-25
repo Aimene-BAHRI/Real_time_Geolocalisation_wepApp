@@ -1,7 +1,7 @@
 * {
     box-sizing: border-box;
     font-family: arial, sans-serif;
-    color: black;
+    color: grey;
 }
 header {
     background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2)), url("http://unsplash.com/photos/9idqIGrLuTE/download?force=true");
